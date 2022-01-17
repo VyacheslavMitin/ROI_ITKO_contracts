@@ -1,10 +1,11 @@
-#  Модуль считывания договоров с ИТКО
+# Модуль считывания договоров с ИТКО
+# Предварительно должна быть запущена ИТКО и открыт справочник договоров
 
 import pyautogui as pg
 import pyperclip
 import time
 import configparser
-
+from datetime import datetime
 
 # Константы
 cfg = configparser.ConfigParser()
@@ -12,6 +13,7 @@ cfg.read('config.ini')
 TIMES = int(cfg.get('SETTS', 'strings'))
 SLEEP_TABS = float(cfg.get('SETTS', 'pause'))
 FILE_NAME = cfg.get('SETTS', 'name_file')
+FILE_NAME_XLSX = f"{FILE_NAME[:-4]}_{datetime.now().strftime('%d.%m.%Y_%H-%M')}.xlsx"
 
 
 # Функции
@@ -25,9 +27,9 @@ def rus_layout():
     time.sleep(0.5)
 
 
-def main():
+def generating_file():
     with open(FILE_NAME, 'w') as file_dummy:
-        file_dummy.write('Контрагент,Банк-партнер,Название договора,Начало периода,Конец периода' + '\n\n')
+        file_dummy.write('Контрагент,Банк-партнер,Название договора,Начало периода,Конец периода' + '\n')
 
     time.sleep(2)
     pg.press('up', presses=400)
@@ -91,10 +93,38 @@ def main():
         pg.press('left', presses=20)
 
 
+def converting_file():
+    from xlsxwriter.workbook import Workbook
+    import csv
+
+    workbook = Workbook(FILE_NAME_XLSX)
+    worksheet = workbook.add_worksheet()
+    with open(FILE_NAME, 'rt') as f:
+        reader = csv.reader(f)
+        for r, row in enumerate(reader):
+            for c, col in enumerate(row):
+                worksheet.write(r, c, col)
+    workbook.close()
+
+
+def deleting_file_csv():
+    import os
+    os.remove(FILE_NAME)
+
+
+def opening_xlsx():
+    import os
+    print('this')
+    os.system(FILE_NAME_XLSX)
+
+
 if __name__ == '__main__':
     pg.keyDown('alt')
     pg.press('tab')
     pg.keyUp('alt')
     rus_layout()
-    main()
-    pg.alert('Сделано')
+    generating_file()
+    converting_file()
+    deleting_file_csv()
+    opening_xlsx()
+    # pg.alert('Сделано')
