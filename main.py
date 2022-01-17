@@ -3,11 +3,15 @@
 import pyautogui as pg
 import pyperclip
 import time
+import configparser
 
 
 # Константы
-TIMES = 10
-SLEEP_TABS = 0.1
+cfg = configparser.ConfigParser()
+cfg.read('config.ini')
+TIMES = int(cfg.get('SETTS', 'strings'))
+SLEEP_TABS = float(cfg.get('SETTS', 'pause'))
+FILE_NAME = cfg.get('SETTS', 'name_file')
 
 
 # Функции
@@ -22,8 +26,8 @@ def rus_layout():
 
 
 def main():
-    with open('test.csv', 'w') as file_dummy:
-        file_dummy.write('Контрагент,Банк-партнер,Название договора,Начало периода,Конец периода' + '\n')
+    with open(FILE_NAME, 'w') as file_dummy:
+        file_dummy.write('Контрагент,Банк-партнер,Название договора,Начало периода,Конец периода' + '\n\n')
 
     time.sleep(2)
     pg.press('up', presses=400)
@@ -39,7 +43,7 @@ def main():
 
         pg.hotkey("ctrl", "c")
         name_contragent = pyperclip.paste()
-        with open('test.csv', 'a') as file_reports:
+        with open(FILE_NAME, 'a') as file_reports:
             file_reports.write(name_contragent)
             file_reports.write(",")
 
@@ -50,7 +54,7 @@ def main():
 
         pg.hotkey("ctrl", "c")
         bank_partner = pyperclip.paste()
-        with open('test.csv', 'a') as file_reports:
+        with open(FILE_NAME, 'a') as file_reports:
             file_reports.write(bank_partner)
             file_reports.write(",")
 
@@ -61,7 +65,7 @@ def main():
 
         pg.hotkey("ctrl", "c")
         name_contract = pyperclip.paste()
-        with open('test.csv', 'a') as file_reports:
+        with open(FILE_NAME, 'a') as file_reports:
             file_reports.write(name_contract)
             file_reports.write(",")
 
@@ -70,7 +74,7 @@ def main():
 
         pg.hotkey("ctrl", "c")
         date_contract_start = pyperclip.paste()
-        with open('test.csv', 'a') as file_reports:
+        with open(FILE_NAME, 'a') as file_reports:
             file_reports.write(date_contract_start)
             file_reports.write(",")
 
@@ -79,7 +83,7 @@ def main():
 
         pg.hotkey("ctrl", "c")
         date_contract_finish = pyperclip.paste()
-        with open('test.csv', 'a') as file_reports:
+        with open(FILE_NAME, 'a') as file_reports:
             file_reports.write(date_contract_finish)
             file_reports.write('\n')
         time.sleep(SLEEP_TABS)
