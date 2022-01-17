@@ -113,6 +113,35 @@ def converting_file():
     workbook.close()
 
 
+def columns_xlsx():
+    time.sleep(1)
+    import openpyxl as xl
+
+    work_book = xl.load_workbook(FILE_NAME_XLSX)
+    sheet = work_book[FILE_NAME_XLSX[:-5]]
+
+    column_number = 1
+    column = str(chr(64 + column_number))
+    sheet.column_dimensions[column].width = 5
+    column_number = 2
+    column = str(chr(64 + column_number))
+    sheet.column_dimensions[column].width = 60
+    column_number = 3
+    column = str(chr(64 + column_number))
+    sheet.column_dimensions[column].width = 20
+    column_number = 4
+    column = str(chr(64 + column_number))
+    sheet.column_dimensions[column].width = 55
+    column_number = 5
+    column = str(chr(64 + column_number))
+    sheet.column_dimensions[column].width = 13
+    column_number = 6
+    column = str(chr(64 + column_number))
+    sheet.column_dimensions[column].width = 13
+
+    work_book.save(FILE_NAME_XLSX)
+
+
 def deleting_file_csv():
     import os
     time.sleep(1)
@@ -132,6 +161,7 @@ if __name__ == '__main__':
     rus_layout()
     generating_file()
     converting_file()
+    columns_xlsx()
     # deleting_file_csv()
     opening_xlsx()
     # pg.alert('Сделано')
