@@ -114,7 +114,6 @@ def deleting_file_csv():
 
 def opening_xlsx():
     import os
-    print('this')
     os.system(FILE_NAME_XLSX)
 
 
