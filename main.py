@@ -29,15 +29,21 @@ def rus_layout():
 
 def generating_file():
     with open(FILE_NAME, 'w') as file_dummy:
-        file_dummy.write('Контрагент,Банк-партнер,Название договора,Начало периода,Конец периода' + '\n')
+        file_dummy.write('N,Контрагент,Банк-партнер,Название договора,Начало периода,Конец периода' + '\n')
 
     time.sleep(2)
-    pg.press('up', presses=400)
+    pg.press('up', presses=1500)
     pg.press('left', presses=20)
 
     for item in range(TIMES):
         if item != 0:
             pg.press('down', presses=1)
+
+        time.sleep(0.2)
+
+        with open(FILE_NAME, 'a') as file_reports:
+            file_reports.write(str(item + 1))
+            file_reports.write(",")
 
         time.sleep(0.2)
 
@@ -98,7 +104,7 @@ def converting_file():
     import csv
 
     workbook = Workbook(FILE_NAME_XLSX)
-    worksheet = workbook.add_worksheet()
+    worksheet = workbook.add_worksheet(FILE_NAME_XLSX[:-5])
     with open(FILE_NAME, 'rt') as f:
         reader = csv.reader(f)
         for r, row in enumerate(reader):
@@ -109,7 +115,9 @@ def converting_file():
 
 def deleting_file_csv():
     import os
+    time.sleep(1)
     os.remove(FILE_NAME)
+    time.sleep(1)
 
 
 def opening_xlsx():
@@ -124,6 +132,6 @@ if __name__ == '__main__':
     rus_layout()
     generating_file()
     converting_file()
-    deleting_file_csv()
+    # deleting_file_csv()
     opening_xlsx()
     # pg.alert('Сделано')
