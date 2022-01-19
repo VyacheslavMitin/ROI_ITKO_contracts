@@ -29,23 +29,32 @@ def correcting_contracts():
     time.sleep(0.5)
     pg.press('right', presses=7)
 
-    for i in range(TIMES):
-        time.sleep(0.0)
-        pg.hotkey("ctrl", "c")
-        if pyperclip.paste() in TUPLE_DATES:
-            pg.press('enter')  # вход в договор
-            time.sleep(1)
-            pg.click(650, 400)  # клик на поле с датой конца периода
-            pg.press('backspace', presses=10)
-            pg.write(DATE)
-            time.sleep(0.5)
-            pg.click(70, 725)  # клик на кнопке сохранить
-            time.sleep(1)
-            pg.click(1220, 760)  # клик на кнопке пересчета даты
-            time.sleep(1)
-            pg.click(1220, 760)  # клик на всякий случай если договор дубль есть
-            time.sleep(1)
-            pg.click(2140, 230)  # клик на столбце и первой строке в окон. периоде в журнале
+    for item in TUPLE_DATES:
+        time.sleep(0.1)
+        pg.hotkey('ctrl', 'f3')
+        time.sleep(0.1)
+        pg.press('delete', presses=15)
+        time.sleep(0.1)
+        pg.write(item)
+        time.sleep(1)
+        pg.press('enter')
+        time.sleep(1)
+        # input()
+        # if pyperclip.paste() in TUPLE_DATES:
+        pg.press('enter')  # вход в договор
+        time.sleep(1)
+        # input()
+        pg.click(650, 400)  # клик на поле с датой конца периода
+        pg.press('backspace', presses=10)
+        pg.write(DATE)
+        time.sleep(0.5)
+        pg.click(70, 725)  # клик на кнопке сохранить
+        time.sleep(1)
+        pg.click(1220, 760)  # клик на кнопке пересчета даты
+        time.sleep(1)
+        pg.click(1220, 760)  # клик на всякий случай если договор дубль есть
+        time.sleep(1)
+        pg.click(2140, 230)  # клик на столбце и первой строке в окон. периоде в журнале
             # break
             # time.sleep(1)
             # pg.press('space')
@@ -74,15 +83,15 @@ def correcting_contracts():
             #     pg.press('esc')
             # pg.press('tab', presses=5, interval=0.5)
             # input()
-        else:
-            pg.press('down')
+        # else:
+        #     pg.press('down')
 
 
 if __name__ == '__main__':
     pg.keyDown('alt')
     pg.press('tab')
     pg.keyUp('alt')
-    rus_layout()
+    eng_layout()
     correcting_contracts()
 
     pg.alert('Сделано')
