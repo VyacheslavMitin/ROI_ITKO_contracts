@@ -40,10 +40,11 @@ def correcting_contracts():
             pg.write(DATE)
             time.sleep(0.5)
             pg.click(70, 725)  # клик на кнопке сохранить
-            time.sleep(0.2)
+            time.sleep(1)
             pg.click(1220, 760)  # клик на кнопке пересчета даты
-            time.sleep(0.2)
+            time.sleep(1)
             pg.click(1220, 760)  # клик на всякий случай если договор дубль есть
+            time.sleep(1)
             pg.click(2140, 230)  # клик на столбце и первой строке в окон. периоде в журнале
             # break
             # time.sleep(1)
